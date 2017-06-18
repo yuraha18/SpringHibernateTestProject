@@ -1,20 +1,21 @@
 package com.yuraha.botscrew.view;
 
+import com.yuraha.botscrew.common.ApplicationContextProvider;
 import com.yuraha.botscrew.controller.MainController;
 import com.yuraha.botscrew.dao.BookDAO;
 import com.yuraha.botscrew.common.Constants;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /* this class show whole info on console by working with controller */
-public class MainView {
-    public BufferedReader reader;
+public class MainView implements ConsoleWorker{
 
-    public void workWithConsole(ClassPathXmlApplicationContext context)
+    public void workWithConsole()
     {
-        reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        ApplicationContext appContext = ApplicationContextProvider.getApplicationContext();
         print(Constants.HELLO_MESSAGE);
         try {
             while (true)
@@ -22,11 +23,11 @@ public class MainView {
                 System.out.print("U: ");
                 String command = reader.readLine();// read command
                 System.out.print("P: ");
-                String result = MainController.handleCommand(command, context);// send command to controller
+                String result = MainController.handleCommand(command, appContext);// send command to controller
 
                 /* if user wanna show all books*/
                 if (Constants.OUR_BOOKS.equals(result))
-                    MainController.getAllBooks(context.getBean(BookDAO.class));
+                    MainController.getAllBooks(appContext.getBean(BookDAO.class));
 
                 /* if exit - print goodbye message and get out*/
                 else if (Constants.EXIT.equals(result))

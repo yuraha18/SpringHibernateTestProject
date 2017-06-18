@@ -7,6 +7,7 @@ import com.yuraha.botscrew.model.Book;
 import com.yuraha.botscrew.common.Constants;
 import com.yuraha.botscrew.common.exceptions.BreakRuntimeException;
 import com.yuraha.botscrew.view.MainView;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.BufferedReader;
@@ -22,7 +23,7 @@ public class MainController {
     private static BookDAO bookDAO;
 
     /* outside methods can see this method and send commands for handle*/
-    public static String handleCommand(String command, ClassPathXmlApplicationContext context) {
+    public static String handleCommand(String command, ApplicationContext context) {
         reader = new BufferedReader(new InputStreamReader(System.in));
          bookDAO = context.getBean(BookDAO.class);
          authorDAO = context.getBean(AuthorDAO.class);
